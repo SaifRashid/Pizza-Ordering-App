@@ -3,6 +3,7 @@ package com.example.pizzaorderingapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Switch
 import android.widget.TextView
@@ -27,6 +28,18 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    fun radioButtonClick (view: View) {
+        val image = findViewById<ImageView>(R.id.image_pizza)
+
+        val id = when (view.id) {
+            R.id.radio_pepperoni -> R.drawable.pepperoni
+            R.id.radio_margherita -> R.drawable.margheritta
+            R.id.radio_bbq_chicken -> R.drawable.bbq_chicken
+            else -> R.drawable.hawaiian
+        }
+        image.setImageResource(id)
+    }
+
     fun buttons (view: View) {
         var quantity = findViewById<TextView>(R.id.text_quantity).text.toString().toInt()
 
@@ -38,32 +51,15 @@ class MainActivity : AppCompatActivity() {
                 quantity--
                 updateQuantity(quantity)
             }
-        } else if (view.id == R.id.switch_spicy) {
-            if (view is Switch && view.isChecked) {
-                updateSpicy(true)
-            } else {
-                updateSpicy(false)
-            }
-        }
-
-    }
-    fun switchSpicy(view: View) {
-        if (view is Switch && view.isChecked) {
-            updateSpicy(true)
-        } else {
-            updateSpicy(false)
         }
     }
-    private fun updateQuantity(value: Int) {
-        val quantity = findViewById<TextView>(R.id.text_quantity)
 
-        quantity.text = "$value"
-    }
-
-    private fun updateSpicy(isVisible: Boolean) {
-        val spicyYesNo = findViewById<TextView>(R.id.text_spicy_yes_no)
+    fun spicySwitch(view: View) {
+        val spicyYesNo = findViewById<Switch>(R.id.switch_spicy)
         val spicyLevel = findViewById<TextView>(R.id.text_spiciness_level)
         val seekSpicy = findViewById<SeekBar>(R.id.seek_spicy)
+
+        var isVisible = spicyYesNo.isChecked
 
         if (isVisible) {
             spicyYesNo.text = "Yes, $1.00"
@@ -72,5 +68,11 @@ class MainActivity : AppCompatActivity() {
         }
         spicyLevel.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
         seekSpicy.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun updateQuantity(value: Int) {
+        val quantity = findViewById<TextView>(R.id.text_quantity)
+
+        quantity.text = "$value"
     }
 }

@@ -61,6 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
+            android:onClick="radioButtonClick"
             android:text="Pepperoni"
             android:textSize="12sp" />
 
@@ -69,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
+            android:onClick="radioButtonClick"
             android:text="Margherita (premium)"
             android:textSize="12sp" />
 
@@ -77,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
+            android:onClick="radioButtonClick"
             android:text="BBQ Chicken"
             android:textSize="12sp" />
 
@@ -85,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
+            android:onClick="radioButtonClick"
             android:text="Hawaiian (premium)"
             android:textSize="12sp" />
     </RadioGroup>
@@ -114,15 +118,15 @@
 
     <ImageView
         android:id="@+id/image_pizza"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="24dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:srcCompat="@android:drawable/sym_def_app_icon"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@drawable/pizza_crust"
+        tools:srcCompat="@drawable/pizza_crust" />
 
     <TextView
         android:id="@+id/textView3"
@@ -231,24 +235,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/check_onions" />
 
-    <TextView
-        android:id="@+id/text_spicy_yes_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="No ($0.00)"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/textView5"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
-
     <Switch
         android:id="@+id/switch_spicy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="buttons"
-        app:layout_constraintBottom_toBottomOf="@+id/text_spicy_yes_no"
-        app:layout_constraintStart_toEndOf="@+id/text_spicy_yes_no"
-        app:layout_constraintTop_toTopOf="@+id/text_spicy_yes_no" />
+        android:layout_marginStart="8dp"
+        android:onClick="spicySwitch"
+        android:text="No, $0.00"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView7"
@@ -318,21 +315,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-    <TextView
-        android:id="@+id/text_delivery_yes_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No ($0.00)"
-        app:layout_constraintBottom_toBottomOf="@+id/textView13"
-        app:layout_constraintStart_toStartOf="@+id/text_tax" />
-
     <Switch
         android:id="@+id/switch_delivery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/text_delivery_yes_no"
-        app:layout_constraintStart_toEndOf="@+id/text_delivery_yes_no"
-        app:layout_constraintTop_toTopOf="@+id/text_delivery_yes_no" />
+        android:text="No, $0.00"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView13"
+        app:layout_constraintStart_toStartOf="@+id/text_tax"
+        app:layout_constraintTop_toTopOf="@+id/textView13" />
 
     <TextView
         android:id="@+id/textView15"
@@ -354,7 +345,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
-        app:layout_constraintStart_toStartOf="@+id/text_delivery_yes_no" />
+        tools:layout_editor_absoluteX="119dp" />
 
     <Button
         android:id="@+id/button_reset"
