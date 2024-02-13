@@ -26,6 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="#F44336"
+        android:onClick="buttons"
         android:rotationY="0"
         android:text="-"
         android:textSize="24sp"
@@ -40,6 +41,7 @@
         android:layout_height="53dp"
         android:layout_marginStart="8dp"
         android:backgroundTint="#4CAF50"
+        android:onClick="buttons"
         android:text="+"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/button_minus"
@@ -230,7 +232,7 @@
         app:layout_constraintTop_toBottomOf="@+id/check_onions" />
 
     <TextView
-        android:id="@+id/text_spicy"
+        android:id="@+id/text_spicy_yes_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -243,21 +245,22 @@
         android:id="@+id/switch_spicy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/text_spicy"
-        app:layout_constraintStart_toEndOf="@+id/text_spicy"
-        app:layout_constraintTop_toTopOf="@+id/text_spicy" />
+        android:onClick="buttons"
+        app:layout_constraintBottom_toBottomOf="@+id/text_spicy_yes_no"
+        app:layout_constraintStart_toEndOf="@+id/text_spicy_yes_no"
+        app:layout_constraintTop_toTopOf="@+id/text_spicy_yes_no" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="24dp"
         android:text="Quantity:"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/seek_spicy" />
 
     <TextView
         android:id="@+id/textView9"
@@ -316,7 +319,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
-        android:id="@+id/text_delivery"
+        android:id="@+id/text_delivery_yes_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No ($0.00)"
@@ -327,9 +330,9 @@
         android:id="@+id/switch_delivery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/text_delivery"
-        app:layout_constraintStart_toEndOf="@+id/text_delivery"
-        app:layout_constraintTop_toTopOf="@+id/text_delivery" />
+        app:layout_constraintBottom_toBottomOf="@+id/text_delivery_yes_no"
+        app:layout_constraintStart_toEndOf="@+id/text_delivery_yes_no"
+        app:layout_constraintTop_toTopOf="@+id/text_delivery_yes_no" />
 
     <TextView
         android:id="@+id/textView15"
@@ -351,7 +354,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
-        app:layout_constraintStart_toStartOf="@+id/text_delivery" />
+        app:layout_constraintStart_toStartOf="@+id/text_delivery_yes_no" />
 
     <Button
         android:id="@+id/button_reset"
@@ -362,5 +365,31 @@
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="@+id/text_total_price"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/text_spiciness_level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="spiciness level: 1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch_spicy" />
+
+    <SeekBar
+        android:id="@+id/seek_spicy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="16dp"
+        android:max="10"
+        android:min="1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_spiciness_level" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
