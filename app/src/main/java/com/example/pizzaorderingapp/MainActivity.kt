@@ -148,12 +148,14 @@ class MainActivity : AppCompatActivity() {
     fun reset(view: View) {
         image.setImageResource(R.drawable.pizza_crust)
         radioGroup.clearCheck()
+
         tomatoes.isChecked = false
         mushrooms.isChecked = false
         olives.isChecked = false
         onions.isChecked = false
         broccoli.isChecked = false
         spinach.isChecked = false
+
         spicySwitch.isChecked = false
         switchSpicy(spicySwitch)
         updateQuantity(1)
