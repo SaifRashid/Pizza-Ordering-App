@@ -61,8 +61,17 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
-            android:onClick="radioButtonClick"
+            android:onClick="radioButtonPizzas"
             android:text="Pepperoni"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/radio_bbq_chicken"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:layout_marginLeft="16dp"
+            android:onClick="radioButtonPizzas"
+            android:text="BBQ Chicken"
             android:textSize="12sp" />
 
         <RadioButton
@@ -70,17 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
-            android:onClick="radioButtonClick"
+            android:onClick="radioButtonPizzas"
             android:text="Margherita (premium)"
-            android:textSize="12sp" />
-
-        <RadioButton
-            android:id="@+id/radio_bbq_chicken"
-            android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:layout_marginStart="16dp"
-            android:onClick="radioButtonClick"
-            android:text="BBQ Chicken"
             android:textSize="12sp" />
 
         <RadioButton
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_marginStart="16dp"
-            android:onClick="radioButtonClick"
+            android:onClick="radioButtonPizzas"
             android:text="Hawaiian (premium)"
             android:textSize="12sp" />
     </RadioGroup>
@@ -168,6 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:onClick="checkBoxes"
         android:text="Tomatoes ($1)"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -177,6 +178,7 @@
         android:id="@+id/check_mushrooms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="checkBoxes"
         android:text="Mushrooms ($2.3)"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/check_olives"
@@ -188,6 +190,7 @@
         android:id="@+id/check_broccoli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="checkBoxes"
         android:text="Broccoli ($1.8)"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/check_mushrooms"
@@ -198,6 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:onClick="checkBoxes"
         android:text="Olives ($1.7)"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -208,6 +212,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:onClick="checkBoxes"
         android:text="Onions ($1.25)"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -218,6 +223,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:onClick="checkBoxes"
         android:text="Spinach ($2)"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -240,7 +246,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:onClick="spicySwitch"
+        android:onClick="switchSpicy"
         android:text="No, $0.00"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -319,6 +325,7 @@
         android:id="@+id/switch_delivery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="switchDelivery"
         android:text="No, $0.00"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
@@ -334,6 +341,7 @@
         android:text="Total Price:"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -345,7 +353,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
-        tools:layout_editor_absoluteX="119dp" />
+        app:layout_constraintStart_toStartOf="@+id/switch_delivery" />
 
     <Button
         android:id="@+id/button_reset"
@@ -353,6 +361,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:backgroundTint="#FF5722"
+        android:onClick="reset"
         android:text="Reset"
         app:layout_constraintBottom_toBottomOf="@+id/text_total_price"
         app:layout_constraintEnd_toEndOf="parent" />
