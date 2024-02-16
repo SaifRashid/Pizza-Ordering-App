@@ -3,15 +3,22 @@ package com.example.pizzaorderingapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.SeekBar
+import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
-class MainActivity : AppCompatActivity() {
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var image: ImageView
     private lateinit var radioGroup: RadioGroup
+    private lateinit var spinner: Spinner
+    private lateinit var spinnerText: String
     private lateinit var tomatoes: CheckBox
     private lateinit var mushrooms: CheckBox
     private lateinit var olives: CheckBox
@@ -19,17 +26,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var broccoli: CheckBox
     private lateinit var spinach: CheckBox
     private lateinit var spicySwitch: Switch
+    private lateinit var text_spiciness_level: TextView
+    private lateinit var seekBar: SeekBar
     private lateinit var quantity: TextView
     private lateinit var deliverySwitch: Switch
     private lateinit var subtotal: TextView
     private lateinit var tax: TextView
     private lateinit var total: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         image = findViewById(R.id.image_pizza)
         radioGroup = findViewById(R.id.radioGroup)
+        spinner = findViewById(R.id.spinner)
         tomatoes = findViewById(R.id.check_tomatoes)
         mushrooms = findViewById(R.id.check_mushrooms)
         olives = findViewById(R.id.check_olives)
@@ -37,20 +48,26 @@ class MainActivity : AppCompatActivity() {
         broccoli = findViewById(R.id.check_broccoli)
         spinach = findViewById(R.id.check_spinach)
         spicySwitch = findViewById(R.id.switch_spicy)
+        text_spiciness_level = findViewById(R.id.text_spiciness_level)
+        seekBar = findViewById(R.id.seek_spicy)
         quantity = findViewById(R.id.text_quantity)
         deliverySwitch = findViewById(R.id.switch_delivery)
         subtotal = findViewById(R.id.text_subtotal)
         tax = findViewById(R.id.text_tax)
         total = findViewById(R.id.text_total_price)
 
-        // SeekBar Listener
-        val spicy = findViewById<TextView>(R.id.text_spiciness_level)
+        val sizeList = listOf("Choose a pizza type", "Medium (\$9.99)", "Large (\$13.99)", "Extra Large (\$15.99)", "Party Size (\$25.99)")
+
+        val sizeAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sizeList)
+        spinner.adapter = sizeAdapter
+        spinner.onItemSelectedListener = this
+
         // Listen seekBar change events: There are three override methods that must be implemented
         // though you may not necessarily use the last two
-        findViewById<SeekBar>(R.id.seek_spicy).setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+        seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, value: Int, fromUser: Boolean) {
                 // As the seekbar moves, the progress value is obtained and displayed in our seekBar label
-                spicy.text = "spiciness level: $value"
+                text_spiciness_level.text = "spiciness level: $value"
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
             }
@@ -67,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             else -> R.drawable.hawaiian
         }
         image.setImageResource(id)
+        calculatePrice()
     }
 
     fun checkBoxes(view: View) {
@@ -78,29 +96,27 @@ class MainActivity : AppCompatActivity() {
 
         if (view.id == R.id.button_plus) {
             quantityInt++
-            updateQuantity(quantityInt)
+            quantity.text = "$quantityInt"
         } else if (view.id == R.id.button_minus) {
             if(quantityInt > 1) {
                 quantityInt--
-                updateQuantity(quantityInt)
+                quantity.text = "$quantityInt"
             }
         }
         calculatePrice()
     }
 
     fun switchSpicy(view: View) {
-        val spicyLevel = findViewById<TextView>(R.id.text_spiciness_level)
-        val seekSpicy = findViewById<SeekBar>(R.id.seek_spicy)
 
-        var visible = spicySwitch.isChecked
+        val visible = spicySwitch.isChecked
 
         if (visible) {
             spicySwitch.text = "Yes, $1.00"
         } else {
             spicySwitch.text = "No, $0.00"
         }
-        spicyLevel.visibility = if (visible) View.VISIBLE else View.INVISIBLE
-        seekSpicy.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        text_spiciness_level.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+        seekBar.visibility = if (visible) View.VISIBLE else View.INVISIBLE
         calculatePrice()
     }
 
@@ -113,11 +129,25 @@ class MainActivity : AppCompatActivity() {
         calculatePrice()
     }
 
-    fun calculatePrice() {
-        //size selection
+    private fun calculatePrice() {
+        val quantityInt = quantity.text.toString().toInt()
         var subtotalDouble = 0.0
         var taxDouble = 0.0
         var totalDouble = 0.0
+
+        // Return if no pizza selected
+        val selectedRadioId = radioGroup.checkedRadioButtonId
+        if (selectedRadioId == -1) {
+            return
+        }
+
+        subtotalDouble += when (spinnerText) {
+            "Medium (\$9.99)" -> 9.99
+            "Large (\$13.99)" -> 13.99
+            "Extra Large (\$15.99)" -> 15.99
+            "Party Size (\$25.99)" -> 25.99
+            else -> 0.0
+        }
 
         if (tomatoes.isChecked)
             subtotalDouble += 1
@@ -134,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         if (spicySwitch.isChecked)
             subtotalDouble += 1
 
-        // subtotal += size * quantityInt (make it from global)
+        subtotalDouble *= quantityInt
         taxDouble = subtotalDouble * 0.0635
         totalDouble = subtotalDouble + taxDouble
         if (deliverySwitch.isChecked)
@@ -148,6 +178,7 @@ class MainActivity : AppCompatActivity() {
     fun reset(view: View) {
         image.setImageResource(R.drawable.pizza_crust)
         radioGroup.clearCheck()
+        spinner.setSelection(0)
 
         tomatoes.isChecked = false
         mushrooms.isChecked = false
@@ -156,16 +187,24 @@ class MainActivity : AppCompatActivity() {
         broccoli.isChecked = false
         spinach.isChecked = false
 
+        seekBar.progress = 1
         spicySwitch.isChecked = false
         switchSpicy(spicySwitch)
-        updateQuantity(1)
+
+        quantity.text = "1"
+        subtotal.text = "$0.00"
+        tax.text = "$0.00"
         deliverySwitch.isChecked = false
         switchDelivery(deliverySwitch)
+        total.text = "$0.00"
     }
 
-    private fun updateQuantity(value: Int) {
-        val quantity = findViewById<TextView>(R.id.text_quantity)
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        spinnerText = parent?.getItemAtPosition(position) as String
+        calculatePrice()
+    }
 
-        quantity.text = "$value"
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
     }
 }
