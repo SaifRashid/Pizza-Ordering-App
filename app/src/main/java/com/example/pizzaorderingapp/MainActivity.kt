@@ -150,8 +150,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return
         }
 
-        if (spinnerText == "Choose a pizza type")
+        if (spinnerText == "Choose a pizza type") {
+            subtotal.text = "$0.00"
+            tax.text = "$0.00"
+            total.text = "$0.00"
             return
+        }
 
         subtotalDouble += when (spinnerText) {
             "Medium ($9.99)" -> 9.99
