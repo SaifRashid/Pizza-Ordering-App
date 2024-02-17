@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         couponString = ""
 
 
-        val sizeList = listOf("Choose a pizza type", "Medium (\$9.99)", "Large (\$13.99)", "Extra Large (\$15.99)", "Party Size (\$25.99)")
+        val sizeList = listOf("Choose a pizza type", "Medium ($9.99)", "Large ($13.99)", "Extra Large ($15.99)", "Party Size ($25.99)")
 
         val sizeAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sizeList)
         spinner.adapter = sizeAdapter
@@ -154,10 +154,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             return
 
         subtotalDouble += when (spinnerText) {
-            "Medium (\$9.99)" -> 9.99
-            "Large (\$13.99)" -> 13.99
-            "Extra Large (\$15.99)" -> 15.99
-            "Party Size (\$25.99)" -> 25.99
+            "Medium ($9.99)" -> 9.99
+            "Large ($13.99)" -> 13.99
+            "Extra Large ($15.99)" -> 15.99
+            "Party Size ($25.99)" -> 25.99
             else -> 0.0
         }
 
