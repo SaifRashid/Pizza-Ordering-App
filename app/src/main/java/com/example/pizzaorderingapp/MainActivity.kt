@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.SeekBar
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var tax: TextView
     private lateinit var total: TextView
 
+    private lateinit var couponText: EditText
+    private lateinit var couponString: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -55,6 +59,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         subtotal = findViewById(R.id.text_subtotal)
         tax = findViewById(R.id.text_tax)
         total = findViewById(R.id.text_total_price)
+
+        couponText = findViewById(R.id.edit_coupon)
+        couponString = ""
+
 
         val sizeList = listOf("Choose a pizza type", "Medium (\$9.99)", "Large (\$13.99)", "Extra Large (\$15.99)", "Party Size (\$25.99)")
 
@@ -135,6 +143,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         var taxDouble = 0.0
         var totalDouble = 0.0
 
+        var couponTotal = 0.0
+
         // Return if no pizza selected
         val selectedRadioId = radioGroup.checkedRadioButtonId
         if (selectedRadioId == -1) {
@@ -164,7 +174,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (spicySwitch.isChecked)
             subtotalDouble += 1
 
+        couponTotal = subtotalDouble
+
         subtotalDouble *= quantityInt
+
+        if (couponString == "SAVE20")
+            subtotalDouble -= subtotalDouble * 0.20
+        else if (couponString == "BOGO" && quantityInt > 1)
+            subtotalDouble -= couponTotal
+
         taxDouble = subtotalDouble * 0.0635
         totalDouble = subtotalDouble + taxDouble
         if (deliverySwitch.isChecked)
@@ -197,6 +215,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         deliverySwitch.isChecked = false
         switchDelivery(deliverySwitch)
         total.text = "$0.00"
+
+        couponString = ""
+        couponText.text = null
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -206,5 +227,19 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
+    }
+
+    fun couponButton (view: View) {
+        couponString = couponText.text.toString()
+        var message = ""
+        if (couponString == "SAVE20")
+            message = "Coupon Applied! 20% Off!"
+        else if (couponString == "BOGO")
+            message = "Coupon Applied! Buy One Get One!"
+        else {
+            message = "Coupon Failed To Apply."
+        }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        calculatePrice()
     }
 }
