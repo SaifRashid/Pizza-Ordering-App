@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     fun switchSpicy(view: View) {
-
         val visible = spicySwitch.isChecked
 
         if (visible) {
@@ -150,6 +149,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (selectedRadioId == -1) {
             return
         }
+
+        if (spinnerText == "Choose a pizza type")
+            return
 
         subtotalDouble += when (spinnerText) {
             "Medium (\$9.99)" -> 9.99
@@ -232,12 +234,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     fun couponButton (view: View) {
         couponString = couponText.text.toString()
         var message = ""
-        if (couponString == "SAVE20")
-            message = "Coupon Applied! 20% Off!"
-        else if (couponString == "BOGO")
-            message = "Coupon Applied! Buy One Get One!"
-        else {
-            message = "Coupon Failed To Apply."
+        message = when (couponString) {
+            "SAVE20" -> "Coupon Applied! 20% Off!"
+            "BOGO" -> "Coupon Applied! Buy One Get One!"
+            else -> "Coupon Failed To Apply."
         }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         calculatePrice()
