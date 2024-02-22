@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         calculatePrice()
     }
 
-    fun buttons(view: View) {
+    fun buttonsPlusMinus(view: View) {
         var quantityInt = quantity.text.toString().toInt()
 
         if (view.id == R.id.button_plus) {
